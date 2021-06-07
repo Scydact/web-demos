@@ -1,0 +1,9 @@
+{
+    "name": "Frequency Types",
+    "short_name": "Freq",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#fff",
+    "description": "Frequency type according to IEEE",
+    "icons": []
+}

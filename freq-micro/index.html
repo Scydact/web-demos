@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequency Type</title>
+    <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+    <style>
+        body {
+            background: black;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+        }
+
+        #out {
+            font-size: xx-large;
+            color: rgb(96, 182, 251);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Frequency Type</h1>
+
+    <label for="freq-in">Frequency input: </label>
+    <input type="text" name="freqency" id="freq-in" value="2.45G">
+
+    <p id="out"></p>
+
+    <script>
+        let input = document.getElementById('freq-in');
+        let output = document.getElementById('out');
+
+        function onChange(evt) {
+            let n = engParse(input.value);
+            let band = getBand(n);
+            output.textContent = band;
+        }
+        input.addEventListener('keyup', onChange, false);
+        input.addEventListener('change', onChange, false);
+        input.addEventListener('paste', onChange, false);
+        
+        onChange()
+
+        function getBand(n) {
+            const bands = [
+                '[TLF] Tremendously low',
+                '[ELF] Extremely low',
+                '[SLF] Super low',
+                '[ULF] Ultra low',
+                '[VLF] Very low',
+                '[LF] Low',
+                '[MF] Medium',
+                '[HF] High',
+                '[VHF] Very high',
+                '[UHF] Ultra high',
+                '[SHF] Super high',
+                '[EHF] Extremely high',
+                '[THF] Tremendously high',
+            ];
+
+            let [num, exp] = getExpNum(n);
+            if (num >= 3) exp++;
+
+            band = bands[exp] || "Out of range";
+            return band;
+        }
+
+        function getExpNum(n) {
+            let exp = ~~Math.log10(n);
+            let num = n / 10 ** exp;
+            return [num, exp];
+        }
+
+        function engParse(str) {
+            const bases = ['f', 'p', 'n', 'u', 'm', '', 'k', 'M', 'G', 'T', 'P'];
+            let n = parseFloat(str);
+            bases.forEach((base, i) => {
+                if (str.endsWith(base)) {
+                    n *= 10 ** (3 * (i - 5));
+                }
+            })
+            return n;
+        }
+
+
+    </script>
+    <script>
+        // Extracted from https://developers.google.com/web/fundamentals/codelabs/offline
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('./serviceWorker.js', {
+                    scope: './'
+                })
+                .then(function () { console.log("Base Service Worker Registered"); });
+        }
+    </script>
+
+
+</body>
+
+</html>
