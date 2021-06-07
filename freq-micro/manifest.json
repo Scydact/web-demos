@@ -5,5 +5,11 @@
     "display": "standalone",
     "background_color": "#fff",
     "description": "Frequency type according to IEEE",
-    "icons": []
+    "icons": [
+        {
+            "src": "./favicon.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        }
+    ]
 }
